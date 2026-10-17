@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Subscription Plans - OTT Platform</title>
+    <style>
+        body { background-color: #141414; color: white; font-family: Arial, sans-serif; text-align: center; padding: 40px; }
+        h1 { color: #E50914; font-size: 2.5rem; margin-bottom: 30px; }
+        .plans-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .plan-card { background: #222; border: 1px solid #444; border-radius: 8px; width: 280px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .plan-card h3 { color: #E50914; font-size: 1.5rem; }
+        .price { font-size: 1.8rem; font-weight: bold; margin: 15px 0; }
+        ul { list-style: none; padding: 0; color: #aaa; text-align: left; margin: 20px 0; }
+        ul li { margin: 10px 0; }
+        .badge { background: #E50914; color: white; padding: 5px 10px; font-size: 0.8rem; border-radius: 4px; font-weight: bold; }
+    </style>
+</head>
+<body>
+<h1>Choose Your Entertainment Plan 🎬</h1>
+<div class="plans-container">
+    <div class="plan-card">
+        <h3>Mobile Plan</h3>
+        <div class="price">$4.99 / mo</div>
+        <ul>
+            <li>✔ Watch on phone or tablet</li>
+            <li>✔ Good video quality (480p)</li>
+            <li>✔ 1 Screen at a time</li>
+        </ul>
+    </div>
+    <div class="plan-card">
+        <h3>Standard Plan</h3>
+        <div class="price">$9.99 / mo</div>
+        <ul>
+            <li>✔ Watch on TV, computer, phone</li>
+            <li>✔ Better video quality (1080p)</li>
+            <li>✔ 2 Screens at a time</li>
+        </ul>
+    </div>
+    <div class="plan-card">
+        <h3>Premium Plan</h3>
+        <div class="price">$14.99 / mo</div>
+        <ul>
+            <li>✔ Ultra HD (4K) + HDR</li>
+            <li>✔ Spatial audio sound</li>
+            <li>✔ 4 Screens at a time</li>
+        </ul>
+    </div>
+</div>
+<br><br>
+<a href="/profile" style="color: #aaa; text-decoration: underline;">Back to Profile</a>
+</body>
+</html>

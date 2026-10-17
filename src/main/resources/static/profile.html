@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My OTT Profile</title>
+    <!-- Using Tailwind CSS for quick, beautiful styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center h-screen">
+
+<div class="bg-gray-800 p-8 rounded-xl shadow-2xl w-96 border border-gray-700">
+    <h1 class="text-3xl font-bold mb-6 text-center text-red-500">🎬 My Profile</h1>
+
+    <div id="profile-content" class="space-y-4">
+        <p class="text-gray-400 text-center">Loading profile details...</p>
+    </div>
+
+    <div class="mt-8 text-center">
+        <a href="/" class="text-sm text-red-400 hover:underline">← Back to Home</a>
+    </div>
+</div>
+
+<script>
+    // 1. Grab the JWT token saved in browser's localStorage during login
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+        // If no token is found, redirect or show an error
+        document.getElementById('profile-content').innerHTML = `
+                <p class="text-red-400 text-center font-medium">You are not logged in!</p>
+                <a href="/login.html" class="block text-center mt-4 bg-red-600 text-white py-2 rounded font-medium hover:bg-red-700">Go to Login</a>
+            `;
+    } else {
+        // 2. Fetch user details from your backend API using the token
+        fetch('/api/profile', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Unauthorized or session expired');
+                }
+                return response.json();
+            })
+            .then(user => {
+                // 3. Display user details on the page dynamically
+                document.getElementById('profile-content').innerHTML = `
+                    <div class="bg-gray-700/50 p-3 rounded-lg border border-gray-600">
+                        <span class="text-xs text-gray-400 uppercase tracking-wider">User ID</span>
+                        <p class="text-lg font-semibold text-gray-200">#${user.id}</p>
+                    </div>
+                    <div class="bg-gray-700/50 p-3 rounded-lg border border-gray-600">
+                        <span class="text-xs text-gray-400 uppercase tracking-wider">Name</span>
+                        <p class="text-lg font-semibold text-gray-200">${user.name}</p>
+                    </div>
+                    <div class="bg-gray-700/50 p-3 rounded-lg border border-gray-600">
+                        <span class="text-xs text-gray-400 uppercase tracking-wider">Email</span>
+                        <p class="text-lg font-semibold text-gray-200">${user.email}</p>
+                    </div>
+                `;
+            })
+            .catch(error => {
+                document.getElementById('profile-content').innerHTML = `
+                    <p class="text-red-400 text-center font-medium">Session expired or invalid token.</p>
+                `;
+            });
+    }
+</script>
+</body>
+</html>
