@@ -1,0 +1,2 @@
+GET http://localhost:8080/api/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJraXNob3JlQGdtYWlsLmNvbSIsImlhdCI6MTc5MjIyNzYyMiwiZXhwIjoxNzkyMzE0MDIyfQ.NBw_-8XESQRemJ2vzVwY4fGzF-oClRfo0JRGRkgm65c
