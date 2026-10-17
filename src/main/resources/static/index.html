@@ -1,26 +1,22 @@
-
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>My OTT</title>
 </head>
+
 <body>
 
-<h1>Welcome to My OTT Platform</h1>
+<h1>My OTT Platform</h1>
 
-<p>This is my first Spring Boot website.</p>
+<input type="text" id="searchBox" placeholder="Search movies or series">
 
-<button onclick="showMovie()">Show Movie</button>
+<button onclick="loadMovies()">All</button>
+<button onclick="loadMovies('Movie')">Movies</button>
+<button onclick="loadMovies('Series')">Series</button>
 
-<p id="movie"></p>
+<div id="movieList"></div>
 
-<script>
-    function showMovie() {
-        document.getElementById("movie").innerText =
-            "Interstellar - Sci-Fi - 2014";
-    }
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
