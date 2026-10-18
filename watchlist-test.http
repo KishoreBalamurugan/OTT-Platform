@@ -1,0 +1,7 @@
+### 1. Add a movie to your watchlist (Replace with your actual token)
+POST http://localhost:8080/api/watchlist/add/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJraXNob3JlQGdtYWlsLmNvbSIsImlhdCI6MTc5MjIyNzYyMiwiZXhwIjoxNzkyMzE0MDIyfQ.NBw_-8XESQRemJ2vzVwY4fGzF-oClRfo0JRGRkgm65c
+
+### 2. Get your watchlist
+GET http://localhost:8080/api/watchlist
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJraXNob3JlQGdtYWlsLmNvbSIsImlhdCI6MTc5MjIyNzYyMiwiZXhwIjoxNzkyMzE0MDIyfQ.NBw_-8XESQRemJ2vzVwY4fGzF-oClRfo0JRGRkgm65c

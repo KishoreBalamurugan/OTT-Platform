@@ -20,18 +20,20 @@ public class Movie {
     private int year;
     private String description;
     private String posterUrl;
+    private double rating; // Added static rating field
 
     public Movie() {
     }
 
     public Movie(String name, String type, String genre, int year,
-                 String description, String posterUrl) {
+                 String description, String posterUrl, double rating) {
         this.name = name;
         this.type = type;
         this.genre = genre;
         this.year = year;
         this.description = description;
         this.posterUrl = posterUrl;
+        this.rating = rating;
     }
 
     public Long getId() {
@@ -62,6 +64,10 @@ public class Movie {
         return posterUrl;
     }
 
+    public double getRating() {
+        return rating; // Added getter for rating
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -84,5 +90,9 @@ public class Movie {
 
     public void setPosterUrl(String posterUrl) {
         this.posterUrl = posterUrl;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating; // Added setter for rating
     }
 }
