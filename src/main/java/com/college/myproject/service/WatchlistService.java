@@ -1,5 +1,4 @@
 package com.college.myproject.service;
-
 import com.college.myproject.model.Movie;
 import com.college.myproject.model.User;
 import com.college.myproject.model.Watchlist;
@@ -10,22 +9,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
 @Service
 public class WatchlistService {
-
     private final WatchlistRepository watchlistRepository;
     private final UserRepository userRepository;
     private final MovieRepository movieRepository;
-
     public WatchlistService(WatchlistRepository watchlistRepository,
                             UserRepository userRepository,
                             MovieRepository movieRepository) {
         this.watchlistRepository = watchlistRepository;
         this.userRepository = userRepository;
-        this.movieRepository = movieRepository;
-    }
-
+        this.movieRepository = movieRepository;}
     public String addMovieToWatchlist(String email, Long movieId) {
         User user = userRepository.findByEmail(email).orElse(null);
         if (user == null) return "User not found";
@@ -38,15 +32,10 @@ public class WatchlistService {
         if (existing.isPresent()) {
             return "Movie is already in your watchlist!";
         }
-
         Watchlist watchlistItem = new Watchlist(user, movie);
         watchlistRepository.save(watchlistItem);
-        return "Movie added to watchlist successfully!";
-    }
-
+        return "Movie added to watchlist successfully!";}
     public List<Watchlist> getWatchlistByEmail(String email) {
         User user = userRepository.findByEmail(email).orElse(null);
         if (user == null) return null;
-        return watchlistRepository.findByUser(user);
-    }
-}
+        return watchlistRepository.findByUser(user);}}
