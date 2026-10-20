@@ -1,63 +1,14 @@
-Spring Boot OTT Platform
-This repository contains a full-stack OTT streaming platform application built using Spring Boot and MySQL. The system provides user authentication, a movie and series catalog with search and genre filters, subscription plan overviews, user profile management, and a watchlist backend.
+# Spring Boot OTT Platform
 
-Key Features
-Secure Authentication: JWT-based login mechanism that verifies user sessions and securely stores session tokens in browser storage.
+A full-stack OTT streaming application built to provide media browsing, user authentication, profile management, watchlist tracking, and subscription plan overviews. Designed to allow any developer to set up, configure, and run the complete system independently.
 
-User Profile Management: Retrieves and displays logged-in user account details (ID, name, and email) by decoding the authorization JWT token.
+Tech Stack Language: Java Framework: Spring Boot, Spring Data JPA, Spring Security, JWT Database: Cloud MySQL (Aiven) Frontend: HTML, Tailwind CSS, JavaScript Build Tool: Maven
 
-Home Dashboard and Catalog:
+## Database Configuration
 
-Dynamic browsing for movies and series.
+Configure your database connection inside `src/main/resources/application.properties` using the following properties:
 
-Live search functionality and category filters for "All", "Movies", and "Series".
-
-Integrated static rating scores and poster previews for titles.
-
-Subscription Plans: A dedicated pricing layout outlining available subscription tiers (Free, Standard, and Premium) without payment gateway integrations.
-
-Watchlist System: Backend support enabling users to save and retrieve their preferred titles.
-
-Technology Stack:
-
-Backend: Java, Spring Boot.
-
-Frontend: HTML5, CSS.
-
-Database: Cloud MySQL 
-
-Build Tool: Maven
-
-Version Control: Git & GitHub
-
-Installation:
-
-Prerequisites
-Ensure the following software is installed on your local machine:
-
-Java Development Kit (JDK) 21 or higher
-
-Maven
-
-Git
-
-IntelliJ IDEA (or any preferred Java IDE)
-
-Setup:
-
-Clone the Repository
-```
-git clone https://github.com/KishoreBalamurugan/JavaSpringBootProject.git 
-cd ott-platform
-```
-
-Switch to Your Feature Branch
-```
-git checkout karthikeyan
-```
-
-Configure Database Settings
-```
+```properties
 spring.application.name=myproject
 spring.datasource.url=jdbc:mysql://netflix-ott-db-netflix-ott.l.aivencloud.com:27787/defaultdb?ssl-mode=REQUIRED
 spring.datasource.username=avnadmin
@@ -65,8 +16,60 @@ spring.datasource.password=YOUR_PASSWORD_HERE
 
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
+
 ```
-Run the Application
+
+## How to Build and Run
+
+
+
+1. Clone this repository and switch to your feature branch:
+
+```bash
+git clone https://github.com/KishoreBalamurugan/JavaSpringBootProject.git
+cd ott-platform
+git checkout karthikeyan
+
 ```
+
+2. Build and run the application using Maven:
+
+```bash
 mvn spring-boot:run
+
+```
+
+Alternatively, open the project in IntelliJ IDEA and run `MyprojectApplication.java`.
+
+## Sample Requests
+
+
+
+### 1. User Login
+
+```http
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "kishore@gmail.com",
+  "password": "1234"
+}
+
+```
+
+### 2. Get User Profile (Protected)
+
+```http
+GET http://localhost:8080/api/profile
+Authorization: Bearer YOUR_JWT_TOKEN
+
+```
+
+### 3. Add Movie to Watchlist (Protected)
+
+```http
+POST http://localhost:8080/api/watchlist/add/1
+Authorization: Bearer YOUR_JWT_TOKEN
+
 ```
