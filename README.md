@@ -18,33 +18,48 @@ Subscription Plans: A dedicated pricing layout outlining available subscription 
 
 Watchlist System: Backend support enabling users to save and retrieve their preferred titles.
 
-Technology Stack
+Technology Stack:
+
 Backend: Java, Spring Boot.
-
 Frontend: HTML5, CSS.
-
 Database: Cloud MySQL 
-
 Build Tool: Maven
+Version Control: Git & GitHub
 
-Version Control: Git & GitHub (collaborative workflow utilizing personal feature branches)
+Installation:
 
-
-Installation and Setup
 Prerequisites
 Ensure the following software is installed on your local machine:
 
 Java Development Kit (JDK) 21 or higher
-
 Maven
-
 Git
-
 IntelliJ IDEA (or any preferred Java IDE)
 
+Setup:
 
 Clone the Repository
-
 ```
 git clone https://github.com/KishoreBalamurugan/JavaSpringBootProject.git 
 cd ott-platform
+```
+
+Switch to Your Feature Branch
+```
+git checkout karthikeyan
+```
+
+Configure Database Settings
+```
+spring.application.name=myproject
+spring.datasource.url=jdbc:mysql://netflix-ott-db-netflix-ott.l.aivencloud.com:27787/defaultdb?ssl-mode=REQUIRED
+spring.datasource.username=avnadmin
+spring.datasource.password=YOUR_PASSWORD_HERE
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+```
+Run the Application
+```
+mvn spring-boot:run
+```
