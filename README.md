@@ -2,7 +2,7 @@
 
 A full-stack OTT streaming application built to provide media browsing, user authentication, profile management, watchlist tracking, and subscription plan overviews. Designed to allow any developer to set up, configure, and run the complete system independently.
 
-Tech Stack Language: Java Framework: Spring Boot, Spring Data JPA, Spring Security, JWT Database: Cloud MySQL (Aiven) Frontend: HTML, Tailwind CSS, JavaScript Build Tool: Maven
+Tech Stack Language: Java Framework: Spring Boot, Spring Data JPA, JWT Database: Cloud MySQL Frontend: HTML, CSS, JavaScript Build Tool: Maven
 
 ## Database Configuration
 
