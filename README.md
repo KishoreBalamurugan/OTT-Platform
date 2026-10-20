@@ -21,9 +21,13 @@ Watchlist System: Backend support enabling users to save and retrieve their pref
 Technology Stack:
 
 Backend: Java, Spring Boot.
+
 Frontend: HTML5, CSS.
+
 Database: Cloud MySQL 
+
 Build Tool: Maven
+
 Version Control: Git & GitHub
 
 Installation:
@@ -32,8 +36,11 @@ Prerequisites
 Ensure the following software is installed on your local machine:
 
 Java Development Kit (JDK) 21 or higher
+
 Maven
+
 Git
+
 IntelliJ IDEA (or any preferred Java IDE)
 
 Setup:
