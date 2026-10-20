@@ -45,5 +45,6 @@ IntelliJ IDEA (or any preferred Java IDE)
 
 Clone the Repository
 
-```git clone https://github.com/KishoreBalamurugan/JavaSpringBootProject.git 
+```
+git clone https://github.com/KishoreBalamurugan/JavaSpringBootProject.git 
 cd ott-platform```
