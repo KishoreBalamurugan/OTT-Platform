@@ -47,4 +47,4 @@ Clone the Repository
 
 ```
 git clone https://github.com/KishoreBalamurugan/JavaSpringBootProject.git 
-cd ott-platform```
+cd ott-platform
