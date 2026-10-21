@@ -1,11 +1,8 @@
-
 package com.college.myproject.model;
 
-import jakarta.persistence.Table;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="users")
@@ -19,8 +16,11 @@ public class User {
     private String email;
     private String password;
 
-    public User() {
-    }
+    // Cascade delete so user's watchlist items are removed when the account is deleted
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Watchlist> watchlists = new ArrayList<>();
+
+    public User() {}
 
     public User(String name, String email, String password) {
         this.name = name;

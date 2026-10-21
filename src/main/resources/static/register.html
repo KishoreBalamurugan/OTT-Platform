@@ -4,145 +4,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - My OTT Platform</title>
-
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
 <body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
 
 <div class="bg-gray-800 p-8 rounded-xl shadow-2xl w-96 border border-gray-700">
-
-    <h1 class="text-3xl font-bold mb-6 text-center text-red-500">
-        🎬 Create Account
-    </h1>
+    <h1 class="text-3xl font-bold mb-6 text-center text-red-500">🎬 Create Account</h1>
 
     <form id="register-form" class="space-y-4">
-
         <div>
-            <label class="block text-sm text-gray-400 mb-1">
-                Name
-            </label>
-
-            <input
-                    type="text"
-                    id="name"
-                    required
-                    class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white focus:outline-none focus:border-red-500"
-                    placeholder="Enter your name">
+            <label class="block text-sm text-gray-400 mb-1">Name</label>
+            <input type="text" id="name" required
+                   class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white focus:outline-none focus:border-red-500"
+                   placeholder="Enter your name">
         </div>
-
         <div>
-            <label class="block text-sm text-gray-400 mb-1">
-                Email
-            </label>
-
-            <input
-                    type="email"
-                    id="email"
-                    required
-                    class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white focus:outline-none focus:border-red-500"
-                    placeholder="Enter your email">
+            <label class="block text-sm text-gray-400 mb-1">Email</label>
+            <input type="email" id="email" required
+                   class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white focus:outline-none focus:border-red-500"
+                   placeholder="Enter your email">
         </div>
-
         <div>
-            <label class="block text-sm text-gray-400 mb-1">
-                Password
-            </label>
-
-            <input
-                    type="password"
-                    id="password"
-                    required
-                    class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white focus:outline-none focus:border-red-500"
-                    placeholder="Enter your password">
+            <label class="block text-sm text-gray-400 mb-1">Password (Min 6 characters)</label>
+            <input type="password" id="password" required minlength="6"
+                   class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white focus:outline-none focus:border-red-500"
+                   placeholder="Enter your password">
         </div>
-
-        <button
-                type="submit"
+        <button type="submit"
                 class="w-full bg-red-600 text-white py-2 rounded font-medium hover:bg-red-700 transition">
             Register
         </button>
-
     </form>
 
-    <div
-            id="message"
-            class="text-sm text-center mt-4">
-    </div>
+    <div id="message" class="text-sm text-center mt-4"></div>
 
     <p class="text-gray-400 text-sm text-center mt-6">
         Already have an account?
-        <a href="/login.html"
-           class="text-red-400 hover:underline">
-            Login here
-        </a>
+        <a href="/login.html" class="text-red-400 hover:underline">Login here</a>
     </p>
-
 </div>
 
-
 <script>
-
     document.getElementById("register-form").addEventListener("submit", function(event) {
-
         event.preventDefault();
 
         const name = document.getElementById("name").value;
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
 
+        const msgDiv = document.getElementById("message");
+        msgDiv.innerText = "Registering...";
+        msgDiv.className = "text-gray-400 text-sm text-center mt-4";
+
         fetch("/api/auth/register", {
-
             method: "POST",
-
             headers: {
                 "Content-Type": "application/json"
             },
-
-            body: JSON.stringify({
-                name: name,
-                email: email,
-                password: password
-            })
-
+            body: JSON.stringify({ name, email, password })
         })
-
-            .then(response => {
-
+            .then(async response => {
+                const text = await response.text();
                 if (!response.ok) {
-                    throw new Error("Registration failed");
+                    let errorMsg = "Registration failed";
+                    try {
+                        const errData = JSON.parse(text);
+                        // Handle validation errors map or single error message
+                        if (typeof errData === 'object') {
+                            errorMsg = Object.values(errData).join(', ') || errData.error || errorMsg;
+                        } else {
+                            errorMsg = text;
+                        }
+                    } catch(e) {
+                        errorMsg = text || errorMsg;
+                    }
+                    throw new Error(errorMsg);
                 }
-
-                return response.text();
+                return text;
             })
-
             .then(message => {
-
-                document.getElementById("message").innerText =
-                    "Registration successful! Redirecting to login...";
-
-                document.getElementById("message").className =
-                    "text-green-400 text-sm text-center mt-4";
+                msgDiv.innerText = "Registration successful! Redirecting to login...";
+                msgDiv.className = "text-green-400 text-sm text-center mt-4";
 
                 setTimeout(() => {
                     window.location.href = "/login.html";
                 }, 1500);
-
             })
-
             .catch(error => {
-
-                document.getElementById("message").innerText =
-                    error.message;
-
-                document.getElementById("message").className =
-                    "text-red-400 text-sm text-center mt-4";
-
+                msgDiv.innerText = error.message;
+                msgDiv.className = "text-red-400 text-sm text-center mt-4";
             });
-
     });
-
 </script>
-
 </body>
 </html>

@@ -6,69 +6,29 @@
     <title>My Watchlist - My OTT Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
 <body class="bg-gray-900 text-white min-h-screen">
 
 <nav class="bg-gray-800 border-b border-gray-700 px-6 py-4 flex justify-between items-center shadow-md">
-
-    <h1 class="text-xl font-bold text-red-500">
-        🎬 My OTT Platform
-    </h1>
-
+    <h1 class="text-xl font-bold text-red-500">🎬 My OTT Platform</h1>
     <div class="space-x-4 flex items-center">
-        <a href="/index.html"
-           class="text-gray-300 hover:text-white font-medium">
-            Home
-        </a>
-
-        <a href="/profile.html"
-           class="bg-gray-700 px-3 py-1.5 rounded text-sm font-medium hover:bg-gray-600">
-            My Profile
-        </a>
-
-        <a href="/watchlist.html"
-           class="bg-red-600 px-3 py-1.5 rounded text-sm font-medium">
-            Watchlist
-        </a>
-
-        <a href="/subscription.html"
-           class="bg-red-600 px-3 py-1.5 rounded text-sm font-medium hover:bg-red-700">
-            Subscriptions
-        </a>
-
-        <button onclick="logout()"
-                class="text-sm text-gray-400 hover:text-red-400">
-            Logout
-        </button>
+        <a href="/index.html" class="text-gray-300 hover:text-white font-medium">Home</a>
+        <a href="/profile.html" class="bg-gray-700 px-3 py-1.5 rounded text-sm font-medium hover:bg-gray-600">My Profile</a>
+        <a href="/watchlist.html" class="bg-red-600 px-3 py-1.5 rounded text-sm font-medium">Watchlist</a>
+        <a href="/subscription.html" class="bg-red-600 px-3 py-1.5 rounded text-sm font-medium hover:bg-red-700">Subscriptions</a>
+        <button onclick="logout()" class="text-sm text-gray-400 hover:text-red-400">Logout</button>
     </div>
-
 </nav>
 
-
 <main class="max-w-6xl mx-auto p-6">
+    <h2 class="text-3xl font-bold mb-2">My Watchlist</h2>
+    <p class="text-gray-400 mb-8">Movies and series you saved for later.</p>
 
-    <h2 class="text-3xl font-bold mb-2">
-        My Watchlist
-    </h2>
-
-    <p class="text-gray-400 mb-8">
-        Movies and series you saved for later.
-    </p>
-
-    <div id="watchlist"
-         class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-
-        <p class="text-gray-400">
-            Loading watchlist...
-        </p>
-
+    <div id="watchlist" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <p class="text-gray-400">Loading watchlist...</p>
     </div>
-
 </main>
 
-
 <script>
-
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -76,128 +36,83 @@
     }
 
     function loadWatchlist() {
-
         fetch("/api/watchlist", {
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + token
             }
         })
-
             .then(response => {
-
                 if (!response.ok) {
                     throw new Error("Unable to load watchlist");
                 }
-
                 return response.json();
             })
-
             .then(watchlist => {
-
                 const list = document.getElementById("watchlist");
-
                 list.innerHTML = "";
 
                 if (watchlist.length === 0) {
-
                     list.innerHTML = `
-                <div class="col-span-full text-center py-16">
-
-                    <p class="text-gray-400 text-lg">
-                        Your watchlist is empty.
-                    </p>
-
-                    <a href="/index.html"
-                       class="inline-block mt-4 bg-red-600 px-5 py-2 rounded-lg hover:bg-red-700">
-                        Browse Movies
-                    </a>
-
-                </div>
-            `;
-
+                    <div class="col-span-full text-center py-16">
+                        <p class="text-gray-400 text-lg">Your watchlist is empty.</p>
+                        <a href="/index.html" class="inline-block mt-4 bg-red-600 px-5 py-2 rounded-lg hover:bg-red-700">Browse Movies</a>
+                    </div>
+                `;
                     return;
                 }
 
                 for (let item of watchlist) {
-
                     const movie = item.movie;
-
                     list.innerHTML += `
-
-                <div class="bg-gray-800 rounded-xl border border-gray-700
-                            shadow-xl overflow-hidden">
-
-                    ${movie.posterUrl ? `
-                        <img src="${movie.posterUrl}"
-                             alt="${movie.name}"
-                             class="w-full h-72 object-cover">
-                    ` : `
-                        <div class="w-full h-72 bg-gray-700
-                                    flex items-center justify-center">
-                            No Poster
+                    <div class="bg-gray-800 rounded-xl border border-gray-700 shadow-xl overflow-hidden flex flex-col justify-between">
+                        <div>
+                            ${movie.posterUrl ? `<img src="${movie.posterUrl}" alt="${movie.name}" class="w-full h-72 object-cover">` : `<div class="w-full h-72 bg-gray-700 flex items-center justify-center">No Poster</div>`}
+                            <div class="p-4">
+                                <h3 class="text-lg font-bold text-white">${movie.name}</h3>
+                                <p class="text-xs text-gray-400 mt-1">${movie.type} | ${movie.genre} | ${movie.year}</p>
+                                <p class="text-sm text-gray-300 mt-3 line-clamp-2">${movie.description || ""}</p>
+                            </div>
                         </div>
-                    `}
-
-                    <div class="p-4">
-
-                        <h3 class="text-lg font-bold text-white">
-                            ${movie.name}
-                        </h3>
-
-                        <p class="text-xs text-gray-400 mt-1">
-                            ${movie.type} | ${movie.genre} | ${movie.year}
-                        </p>
-
-                        <p class="text-sm text-gray-300 mt-3 line-clamp-2">
-                            ${movie.description || ""}
-                        </p>
-
-                        <div class="mt-4 flex justify-between items-center">
-
-                            <span class="text-yellow-400 text-sm font-bold">
-                                ⭐ ${movie.rating || "N/A"} / 5
-                            </span>
-
-                            <span class="text-xs bg-red-600 px-2 py-1 rounded">
-                                ${movie.type}
-                            </span>
-
+                        <div class="p-4 pt-0">
+                            <button onclick="removeFromWatchlist(${movie.id})" class="w-full bg-red-600/80 hover:bg-red-700 py-2 rounded text-sm font-medium transition">Remove from Watchlist</button>
                         </div>
-
                     </div>
-
-                </div>
-
-            `;
+                `;
                 }
-
             })
-
             .catch(error => {
-
                 document.getElementById("watchlist").innerHTML = `
-            <p class="text-red-400 col-span-full text-center">
-                Failed to load watchlist.
-            </p>
-        `;
-
+                <p class="text-red-400 col-span-full text-center">Failed to load watchlist.</p>
+            `;
                 console.error(error);
             });
     }
 
+    function removeFromWatchlist(movieId) {
+        fetch("/api/watchlist/remove/" + movieId, {
+            method: "DELETE",
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        })
+            .then(res => res.text())
+            .then(msg => {
+                alert(msg);
+                loadWatchlist();
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Failed to remove movie");
+            });
+    }
 
     function logout() {
-
         localStorage.removeItem("token");
-
         window.location.href = "/login.html";
     }
 
-
     loadWatchlist();
-
 </script>
-
 </body>
 </html>
