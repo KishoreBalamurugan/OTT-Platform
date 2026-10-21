@@ -4,70 +4,142 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My OTT Profile</title>
-    <!-- Using Tailwind CSS for quick, beautiful styling -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-900 text-white flex items-center justify-center h-screen">
+<body class="bg-gray-900 text-white min-h-screen flex flex-col justify-between">
 
-<div class="bg-gray-800 p-8 rounded-xl shadow-2xl w-96 border border-gray-700">
-    <h1 class="text-3xl font-bold mb-6 text-center text-red-500">🎬 My Profile</h1>
-
-    <div id="profile-content" class="space-y-4">
-        <p class="text-gray-400 text-center">Loading profile details...</p>
+<nav class="bg-gray-800 border-b border-gray-700 px-6 py-4 flex justify-between items-center shadow-md">
+    <h2 class="text-xl font-bold text-red-500">My OTT Platform</h2>
+    <div class="space-x-4 flex items-center">
+        <a href="/index.html" class="text-gray-300 hover:text-white font-medium">Home</a>
+        <a href="/profile.html" class="bg-red-600 px-3 py-1.5 rounded text-sm font-medium">My Profile</a>
+        <a href="/watchlist.html" class="bg-gray-700 px-3 py-1.5 rounded text-sm font-medium hover:bg-gray-600 transition">Watchlist</a>
+        <a href="/subscription.html" class="bg-red-600 px-3 py-1.5 rounded text-sm font-medium hover:bg-red-700 transition">Subscriptions</a>
+        <button onclick="logout()" class="text-sm text-gray-400 hover:text-red-400">Logout</button>
     </div>
+</nav>
 
-    <div class="mt-8 text-center">
-        <a href="/" class="text-sm text-red-400 hover:underline">← Back to Home</a>
+<div class="flex-1 flex items-center justify-center p-6">
+    <div class="bg-gray-800 p-8 rounded-xl shadow-2xl w-full max-w-md border border-gray-700">
+        <h1 class="text-3xl font-bold mb-6 text-center text-red-500">🎬 My Profile</h1>
+
+        <div id="profile-content" class="space-y-4">
+            <p class="text-gray-400 text-center">Loading profile details...</p>
+        </div>
+
+        <form id="update-form" class="space-y-4 mt-6 hidden">
+            <h2 class="text-xl font-semibold text-gray-200">Update Profile</h2>
+            <div>
+                <label class="block text-sm text-gray-400 mb-1">Name</label>
+                <input type="text" id="update-name" class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white">
+            </div>
+            <div>
+                <label class="block text-sm text-gray-400 mb-1">Email</label>
+                <input type="email" id="update-email" class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white">
+            </div>
+            <div>
+                <label class="block text-sm text-gray-400 mb-1">New Password (optional)</label>
+                <input type="password" id="update-password" placeholder="Leave blank to keep current" class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white">
+            </div>
+            <div class="flex space-x-2">
+                <button type="submit" class="flex-1 bg-red-600 py-2 rounded font-medium hover:bg-red-700">Save Changes</button>
+                <button type="button" onclick="toggleEdit(false)" class="bg-gray-700 px-4 py-2 rounded hover:bg-gray-600">Cancel</button>
+            </div>
+        </form>
+
+        <div id="action-buttons" class="mt-6 flex justify-between items-center">
+            <button onclick="toggleEdit(true)" class="bg-gray-700 px-4 py-2 rounded text-sm hover:bg-gray-600">Edit Profile</button>
+            <button onclick="deleteAccount()" class="bg-red-600/80 px-4 py-2 rounded text-sm hover:bg-red-700">Delete Account</button>
+        </div>
+
+        <div class="mt-6 text-center">
+            <a href="/index.html" class="text-sm text-red-400 hover:underline">← Back to Home</a>
+        </div>
     </div>
 </div>
 
 <script>
-    // 1. Grab the JWT token saved in browser's localStorage during login
     const token = localStorage.getItem('token');
-
     if (!token) {
-        // If no token is found, redirect or show an error
-        document.getElementById('profile-content').innerHTML = `
-                <p class="text-red-400 text-center font-medium">You are not logged in!</p>
-                <a href="/login.html" class="block text-center mt-4 bg-red-600 text-white py-2 rounded font-medium hover:bg-red-700">Go to Login</a>
-            `;
-    } else {
-        // 2. Fetch user details from your backend API using the token
+        window.location.href = '/login.html';
+    }
+
+    function loadProfile() {
         fetch('/api/profile', {
             method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + token
-            }
+            headers: { 'Authorization': 'Bearer ' + token }
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Unauthorized or session expired');
-                }
-                return response.json();
+            .then(res => {
+                if (!res.ok) throw new Error("Unauthorized");
+                return res.json();
             })
             .then(user => {
-                // 3. Display user details on the page dynamically
                 document.getElementById('profile-content').innerHTML = `
-                    <div class="bg-gray-700/50 p-3 rounded-lg border border-gray-600">
-                        <span class="text-xs text-gray-400 uppercase tracking-wider">User ID</span>
-                        <p class="text-lg font-semibold text-gray-200">#${user.id}</p>
-                    </div>
-                    <div class="bg-gray-700/50 p-3 rounded-lg border border-gray-600">
-                        <span class="text-xs text-gray-400 uppercase tracking-wider">Name</span>
-                        <p class="text-lg font-semibold text-gray-200">${user.name}</p>
-                    </div>
-                    <div class="bg-gray-700/50 p-3 rounded-lg border border-gray-600">
-                        <span class="text-xs text-gray-400 uppercase tracking-wider">Email</span>
-                        <p class="text-lg font-semibold text-gray-200">${user.email}</p>
-                    </div>
-                `;
+                <div class="bg-gray-700/50 p-3 rounded-lg border border-gray-600">
+                    <span class="text-xs text-gray-400 uppercase">Name</span>
+                    <p class="text-lg font-semibold text-gray-200">${user.name}</p>
+                </div>
+                <div class="bg-gray-700/50 p-3 rounded-lg border border-gray-600">
+                    <span class="text-xs text-gray-400 uppercase">Email</span>
+                    <p class="text-lg font-semibold text-gray-200">${user.email}</p>
+                </div>
+            `;
+                document.getElementById('update-name').value = user.name;
+                document.getElementById('update-email').value = user.email;
             })
-            .catch(error => {
-                document.getElementById('profile-content').innerHTML = `
-                    <p class="text-red-400 text-center font-medium">Session expired or invalid token.</p>
-                `;
+            .catch(() => {
+                localStorage.removeItem('token');
+                window.location.href = '/login.html';
             });
     }
+
+    function toggleEdit(show) {
+        document.getElementById('update-form').classList.toggle('hidden', !show);
+        document.getElementById('profile-content').classList.toggle('hidden', show);
+        document.getElementById('action-buttons').classList.toggle('hidden', show);
+    }
+
+    document.getElementById('update-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const name = document.getElementById('update-name').value;
+        const email = document.getElementById('update-email').value;
+        const password = document.getElementById('update-password').value;
+
+        fetch('/api/profile', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+            body: JSON.stringify({ name, email, password: password ? password : null })
+        })
+            .then(async res => {
+                if (!res.ok) throw new Error((await res.json()).error || 'Update failed');
+                alert('Profile updated successfully!');
+                toggleEdit(false);
+                loadProfile();
+            })
+            .catch(err => alert(err.message));
+    });
+
+    function deleteAccount() {
+        if (confirm('Are you sure you want to delete your account? This action is irreversible.')) {
+            fetch('/api/profile', {
+                method: 'DELETE',
+                headers: { 'Authorization': 'Bearer ' + token }
+            })
+                .then(res => {
+                    if (!res.ok) throw new Error("Failed to delete account");
+                    localStorage.removeItem('token');
+                    window.location.href = '/login.html';
+                })
+                .catch(err => alert(err.message));
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem('token');
+        window.location.href = '/login.html';
+    }
+
+    loadProfile();
 </script>
 </body>
 </html>

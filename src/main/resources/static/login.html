@@ -42,12 +42,11 @@
 
 <script>
     document.getElementById('login-form').addEventListener('submit', function(event) {
-        event.preventDefault(); // Stop page from reloading
+        event.preventDefault();
 
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
-        // Call your teammate's login backend API
         fetch('/api/auth/login', {
             method: 'POST',
             headers: {
@@ -55,32 +54,21 @@
             },
             body: JSON.stringify({ email, password })
         })
-            .then(response => {
+            .then(async response => {
+                const text = await response.text();
                 if (!response.ok) {
-                    throw new Error('Invalid email or password');
+                    let errorMsg = 'Invalid email or password';
+                    try {
+                        const errData = JSON.parse(text);
+                        errorMsg = errData.error || errorMsg;
+                    } catch(e) {}
+                    throw new Error(errorMsg);
                 }
-                // Read the response stream once as text safely
-                return response.text();
+                return text;
             })
-            .then(text => {
-                let token = text;
-                try {
-                    // If the response is JSON, extract the token property
-                    const data = JSON.parse(text);
-                    token = data.token || data.accessToken || text;
-                } catch (e) {
-                    // If it's not JSON, the raw text itself is the token
-                }
-
-                if (token) {
-                    // Save token into browser storage
-                    localStorage.setItem('token', token);
-
-                    // Redirect to your home page
-                    window.location.href = '/index.html';
-                } else {
-                    throw new Error('Token not received from server');
-                }
+            .then(token => {
+                localStorage.setItem('token', token);
+                window.location.href = '/index.html';
             })
             .catch(error => {
                 document.getElementById('error-msg').innerText = error.message;
