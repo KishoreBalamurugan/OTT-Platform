@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
-/**
- * Controller for handling movie and series catalog requests.
- */
+//Controller for handling movie and series catalog requests.
+
 @RestController
 @RequestMapping("/movies")
 public class MovieController {
@@ -23,9 +22,8 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    /**
-     * Retrieve a filtered list of movies or series based on type, genre, or search keyword.
-     */
+    //Retrieve a filtered list of movies or series based on type, genre, or search keyword.
+
     @GetMapping
     public ResponseEntity<List<Movie>> getMovies(
             @RequestParam(required = false) String type,
@@ -36,9 +34,8 @@ public class MovieController {
         return ResponseEntity.ok(movies);
     }
 
-    /**
-     * Retrieve a specific movie by its unique ID. Throws 404 if not found.
-     */
+    //Retrieve a specific movie by its unique ID. Throws 404 if not found.
+
     @GetMapping("/{id}")
     public ResponseEntity<Movie> getMovieById(@PathVariable Long id) {
         Movie movie = movieService.getMovieById(id);

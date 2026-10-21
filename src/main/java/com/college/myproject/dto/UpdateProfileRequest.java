@@ -3,9 +3,8 @@ package com.college.myproject.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-/**
- * DTO for updating user account details.
- */
+//DTO for updating user account details.
+
 public class UpdateProfileRequest {
 
     @NotBlank(message = "Name cannot be blank")

@@ -20,7 +20,7 @@ public class ProfileController {
         this.jwtUtil = jwtUtil;
         this.userService = userService;
     }
-
+//For accessing profile
     @GetMapping
     public ResponseEntity<?> profile(@RequestHeader(value = "Authorization", required = false) String authHeader) {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -34,7 +34,7 @@ public class ProfileController {
         User user = userService.getUserByEmail(email);
         return ResponseEntity.ok(user);
     }
-
+//For Updating account
     @PutMapping
     public ResponseEntity<?> updateProfile(@RequestHeader(value = "Authorization", required = false) String authHeader,
                                            @Valid @RequestBody UpdateProfileRequest request) {
@@ -49,7 +49,7 @@ public class ProfileController {
         User updatedUser = userService.updateUser(email, request);
         return ResponseEntity.ok(updatedUser);
     }
-
+//For deleting account
     @DeleteMapping
     public ResponseEntity<?> deleteAccount(@RequestHeader(value = "Authorization", required = false) String authHeader) {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {

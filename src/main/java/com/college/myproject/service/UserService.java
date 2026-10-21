@@ -21,17 +21,15 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    /**
-     * Retrieve user details by email.
-     */
+    //Retrieve user details by email.
+
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
     }
 
-    /**
-     * Update user profile details.
-     */
+    //Update user profile details.
+
     @Transactional
     public User updateUser(String currentEmail, UpdateProfileRequest request) {
         User user = getUserByEmail(currentEmail);
@@ -52,9 +50,8 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    /**
-     * Delete user account by email.
-     */
+    //Delete user account by email.
+
     @Transactional
     public void deleteUserByEmail(String email) {
         User user = getUserByEmail(email);

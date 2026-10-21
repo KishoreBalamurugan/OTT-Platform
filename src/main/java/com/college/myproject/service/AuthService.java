@@ -21,9 +21,8 @@ public class AuthService {
         this.jwtUtil = jwtUtil;
     }
 
-    /**
-     * Authenticate user and return JWT token. Throws exception on invalid credentials.
-     */
+    //Authenticate user and return JWT token. Throws exception on invalid credentials.
+
     public String login(String email, String password) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
@@ -35,9 +34,8 @@ public class AuthService {
         return jwtUtil.generateToken(user.getEmail());
     }
 
-    /**
-     * Register a new user account.
-     */
+    //Register a new user account.
+
     public String register(String name, String email, String password) {
         if (userRepository.findByEmail(email).isPresent()) {
             throw new IllegalArgumentException("Email already registered");

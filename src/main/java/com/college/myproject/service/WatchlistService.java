@@ -44,9 +44,8 @@ public class WatchlistService {
         return "Movie added to watchlist successfully!";
     }
 
-    /**
-     * Remove a movie from the user's watchlist.
-     */
+    //Remove a movie from the user's watchlist.
+
     @Transactional
     public String removeMovieFromWatchlist(String email, Long movieId) {
         User user = userRepository.findByEmail(email)

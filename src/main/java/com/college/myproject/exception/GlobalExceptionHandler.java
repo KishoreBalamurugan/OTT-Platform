@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Global exception handler providing centralized error responses with proper HTTP status codes.
- */
+//Global exception handler providing centralized error responses with proper HTTP status codes.
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 

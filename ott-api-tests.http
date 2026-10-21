@@ -1,0 +1,85 @@
+
+### 1. AUTHENTICATION ENDPOINTS
+
+### Register a New User
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "Rahul Sharma",
+  "email": "rahul@example.com",
+  "password": "password123"
+}
+
+### Login User (Saves JWT token to environment variable)
+# @name loginRequest
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "kishore@gmail.com",
+  "password": "123456"
+}
+
+> {%
+    // Automatically capture the JWT token from response and save it as a variable
+    client.global.set("jwt_token", response.body);
+%}
+
+
+### 2. MOVIE CATALOG ENDPOINTS (PUBLIC)
+
+
+### Get All Movies and Series
+GET http://localhost:8080/movies
+
+### Filter Movies by Type ("Movie")
+GET http://localhost:8080/movies?type=Movie
+
+### Filter Series by Genre ("Sci-Fi")
+GET http://localhost:8080/movies?type=Series&genre=Sci-Fi
+
+### Search Movies by Keyword ("Inception")
+GET http://localhost:8080/movies?search=Inception
+
+### Get Movie by ID (Valid ID: 1)
+GET http://localhost:8080/movies/1
+
+### Get Movie by ID (Invalid ID -> Triggers 404 Not Found)
+GET http://localhost:8080/movies/9999
+
+
+### 3. USER PROFILE ENDPOINTS (PROTECTED)
+
+### Get Logged-in User Profile
+GET http://localhost:8080/api/profile
+Authorization: Bearer {{jwt_token}}
+
+### Update User Profile
+PUT http://localhost:8080/api/profile
+Authorization: Bearer {{jwt_token}}
+Content-Type: application/json
+
+{
+  "name": "Kishore Updated",
+  "email": "kishore@gmail.com",
+  "password": "123456"
+}
+
+### Delete User Account (Warning: Permanent)
+# DELETE http://localhost:8080/api/profile
+# Authorization: Bearer {{jwt_token}}
+
+### 4. WATCHLIST ENDPOINTS (PROTECTED)
+
+### Get User Watchlist
+GET http://localhost:8080/api/watchlist
+Authorization: Bearer {{jwt_token}}
+
+### Add Movie to Watchlist (Movie ID: 5)
+POST http://localhost:8080/api/watchlist/add/5
+Authorization: Bearer {{jwt_token}}
+
+### Remove Movie from Watchlist (Movie ID: 5)
+DELETE http://localhost:8080/api/watchlist/remove/5
+Authorization: Bearer {{jwt_token}}

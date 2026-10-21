@@ -20,7 +20,7 @@ public class WatchlistController {
         this.jwtUtil = jwtUtil;
         this.watchlistService = watchlistService;
     }
-
+//adding to watchlist
     @PostMapping("/add/{movieId}")
     public ResponseEntity<?> addToWatchlist(@RequestHeader(value = "Authorization", required = false) String authHeader,
                                             @PathVariable Long movieId) {
@@ -36,7 +36,7 @@ public class WatchlistController {
         String result = watchlistService.addMovieToWatchlist(email, movieId);
         return ResponseEntity.ok(result);
     }
-
+//removing from watchlist
     @DeleteMapping("/remove/{movieId}")
     public ResponseEntity<?> removeFromWatchlist(@RequestHeader(value = "Authorization", required = false) String authHeader,
                                                  @PathVariable Long movieId) {
@@ -52,7 +52,7 @@ public class WatchlistController {
         String result = watchlistService.removeMovieFromWatchlist(email, movieId);
         return ResponseEntity.ok(result);
     }
-
+//display watchlist
     @GetMapping
     public ResponseEntity<?> getWatchlist(@RequestHeader(value = "Authorization", required = false) String authHeader) {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
